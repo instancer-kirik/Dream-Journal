@@ -44,7 +44,7 @@ class RecordingDetailsViewModel@Inject constructor(private val myPlayer: MyPlaye
 
     }
 
-    // ** Mediaplayer Funs **
+    // ** Mediaplayer Funs ** CHG
 
     fun initMediaPlayer(uri: Uri) {
 
