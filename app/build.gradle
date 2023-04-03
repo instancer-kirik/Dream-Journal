@@ -1,0 +1,189 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlinx-serialization'
+    id 'com.google.devtools.ksp' version '1.7.0-1.0.6'
+    id 'kotlin-parcelize'
+}
+kotlin{
+    sourceSets{
+        debug{
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release{
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+}
+android {
+    namespace 'com.instance.dreamjournal'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.instance.dreamjournal"
+        minSdk 27
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+        dataBinding true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.2.0'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    buildToolsVersion '32.1.0 rc1'
+    namespace 'com.instance.dreamjournal'
+    kapt {
+        correctErrorTypes true
+    }
+    applicationVariants.all {
+        kotlin.sourceSets {
+            getByName(name) {
+                kotlin.srcDir("build/generated/ksp/$name/kotlin")
+            }
+        }
+    }
+}
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        freeCompilerArgs += [
+                '-Xopt-in=kotlin.RequiresOptIn',
+        ]
+    }
+}
+
+dependencies {
+
+    //implementation platform('androidx.compose:compose-bom:2023.03.00')
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation "androidx.compose.ui:ui:$compose_rollback"
+    implementation ("androidx.compose.material:material"){
+        version {
+            strictly("1.3.1")
+        }
+    }
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.foundation:foundation:$compose_rollback"
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.4.0'
+//HTTP
+   //implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.10'
+
+
+//KOIN
+    implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
+
+
+
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_rollback"
+    implementation 'androidx.activity:activity-compose:1.7.0'
+
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation('io.github.raamcosta.compose-destinations:core:1.8.36-beta')
+    //ksp('io.github.raamcosta.compose-destinations:ksp:1.6.12-beta')
+    ksp 'io.github.raamcosta.compose-destinations:ksp:1.8.36-beta'
+\
+//Paging 3.0
+    implementation 'androidx.paging:paging-compose:1.0.0-alpha18'
+    implementation 'androidx.room:room-paging:2.5.1'
+//hilt
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    implementation 'com.google.dagger:hilt-android:2.45'
+    kapt 'com.google.dagger:hilt-compiler:2.45'
+
+    implementation 'androidx.fragment:fragment-ktx:1.5.6'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version"
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    //implementation 'com.google.firebase:firebase-auth-ktx:21.0.8'
+
+
+
+
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //implementation("androidx.compose.compiler:compiler:")
+
+
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+    kapt 'com.github.bumptech.glide:compiler:4.15.1'
+
+    implementation "androidx.room:room-ktx:$room_version"
+    //implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    //implementation "androidx.compose.compiler:compiler:1.2.0"
+
+//Pager
+    implementation 'com.google.accompanist:accompanist-pager:0.30.0'
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.30.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    implementation 'com.google.accompanist:accompanist-systemuicontroller:0.30.0'
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+
+    implementation "io.coil-kt:coil:$coil_version"
+    implementation "io.coil-kt:coil-gif:$coil_version"
+    implementation "io.coil-kt:coil-video:$coil_version"
+    implementation "io.coil-kt:coil-compose:$coil_version"
+
+//ROOM
+    implementation 'androidx.room:room-runtime:2.5.1'
+
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
+
+    implementation('com.squareup.moshi:moshi:1.14.0')
+    kapt('com.squareup.moshi:moshi-kotlin-codegen:1.14.0')
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    implementation('com.google.devtools.ksp:symbol-processing-api:1.7.21-1.0.8')
+   // implementation 'com.github.SmartToolFactory:Compose-Color-Picker-Bundle:1.0.1'
+//MediaPlayer
+    // For media playback using ExoPlayer
+    implementation("androidx.media3:media3-exoplayer:$media3_version")
+
+    // For DASH playback support with ExoPlayer
+    implementation("androidx.media3:media3-exoplayer-dash:$media3_version")
+    // For building media playback UIs
+    implementation("androidx.media3:media3-ui:$media3_version")
+}
